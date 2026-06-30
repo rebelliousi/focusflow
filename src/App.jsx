@@ -27,11 +27,18 @@ const App=()=>{
     const handleRunning=()=>{
         setIsRunning(prev=>!prev)
     }
+
+    const handleReset=()=>{
+        setSecond(25*60)
+        setIsRunning(false)
+    }
     return(
         <div>
           <h1>{min}:{sec<10 ? "0"+sec : sec}</h1>
 
           <button  onClick={handleRunning}>{isRunning ? 'stop' : "start"}</button>
+
+          <button onClick={handleReset}>reset</button>
         </div>
     )
 }
