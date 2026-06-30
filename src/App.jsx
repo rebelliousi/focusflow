@@ -23,7 +23,7 @@ const App=()=>{
         <div>
           <h1>{second}</h1>
 
-          <button  onClick={handleRunning}>start</button>
+          <button  onClick={handleRunning}>{isRunning ? 'stop' : "start"}</button>
         </div>
     )
 }
