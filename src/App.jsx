@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 const App=()=>{
-    const [second,setSecond]=useState(0)
+    const [second,setSecond]=useState(25*60)
 
     const [isRunning,setIsRunning]=useState(false)
 
@@ -10,18 +10,21 @@ const App=()=>{
         if (isRunning === false)
             return
         const interval=setInterval(()=>{
-            setSecond(prev=>prev+1)
+            setSecond(prev=>prev-1)
         },1000)
 
         return()=> clearInterval(interval)
     },[isRunning]) 
+
+    const min=Math.floor(second/60)
+    const sec=Math.floor(second%60)
 
     const handleRunning=()=>{
         setIsRunning(prev=>!prev)
     }
     return(
         <div>
-          <h1>{second}</h1>
+          <h1>{min}:{sec<10 ? "0"+sec : sec}</h1>
 
           <button  onClick={handleRunning}>{isRunning ? 'stop' : "start"}</button>
         </div>
