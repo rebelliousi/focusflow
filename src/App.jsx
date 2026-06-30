@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 const App=()=>{
-    const [second,setSecond]=useState(25*60)
+    const [second,setSecond]=useState(1*60)
 
     const [isRunning,setIsRunning]=useState(false)
 
@@ -10,7 +10,12 @@ const App=()=>{
         if (isRunning === false)
             return
         const interval=setInterval(()=>{
-            setSecond(prev=>prev-1)
+            setSecond(prev=>{
+                if (prev===0){
+                    setIsRunning(false)
+                    return 0
+                }else return prev-1
+            })
         },1000)
 
         return()=> clearInterval(interval)
