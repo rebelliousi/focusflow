@@ -8,6 +8,7 @@ const App=()=>{
     const [session,setSession]=useState(0)
 
     const [totalSeconds,setTotalSeconds]=useState(0)
+    const [mode,setMode]=useState('work')
 
     useEffect(()=>{
 
@@ -15,17 +16,25 @@ const App=()=>{
             return
         const interval=setInterval(()=>{
             setSecond(prev=>{
-                if (prev===0){
+                if (prev===0 && mode==='work'){
+                    setMode('break')
+                   
                     setIsRunning(false)
                     setSession(prev=>prev+1)
-                    return 0
-                }else {setTotalSeconds(prev=>prev+1) 
+                    return 1.5*60
+                
+                }else if(prev===0 && mode==='break'){
+                    setMode('work')
+                     setIsRunning(false)
+                   return 1*60
+                }
+                else {setTotalSeconds(prev=>prev+1) 
                   return prev-1}
             })
         },1000)
 
         return()=> clearInterval(interval)
-    },[isRunning]) 
+    },[isRunning,mode]) 
 
     const min=Math.floor(second/60)
     const sec=Math.floor(second%60)
@@ -46,7 +55,7 @@ const App=()=>{
           <h1>{min}:{sec<10 ? "0"+sec : sec}</h1>
           {second!==0 &&           <button  onClick={handleRunning}>{isRunning ? 'stop' : "start"}</button>
 }
-
+<h2>{mode==='work' ? 'Work Time' : 'Break time'}</h2>
 
           <button onClick={handleReset}>reset</button>
           <h1>Your total session:{session}</h1>
