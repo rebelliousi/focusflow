@@ -7,6 +7,8 @@ const App=()=>{
 
     const [session,setSession]=useState(0)
 
+    const [totalSeconds,setTotalSeconds]=useState(0)
+
     useEffect(()=>{
 
         if (isRunning === false)
@@ -17,7 +19,8 @@ const App=()=>{
                     setIsRunning(false)
                     setSession(prev=>prev+1)
                     return 0
-                }else return prev-1
+                }else {setTotalSeconds(prev=>prev+1) 
+                  return prev-1}
             })
         },1000)
 
@@ -35,14 +38,20 @@ const App=()=>{
         setSecond(25*60)
         setIsRunning(false)
     }
+
+    const totalMin=Math.floor(totalSeconds/60)
+    const totalSec=Math.floor(totalSeconds%60)
     return(
         <div>
           <h1>{min}:{sec<10 ? "0"+sec : sec}</h1>
+          {second!==0 &&           <button  onClick={handleRunning}>{isRunning ? 'stop' : "start"}</button>
+}
 
-          <button  onClick={handleRunning}>{isRunning ? 'stop' : "start"}</button>
 
           <button onClick={handleReset}>reset</button>
           <h1>Your total session:{session}</h1>
+
+          <h1>Your total focus time:{totalMin}:{totalSec}</h1>
         </div>
     )
 }
