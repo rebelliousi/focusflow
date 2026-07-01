@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 
 const App=()=>{
-    const [second,setSecond]=useState(1*60)
+        const [workDuration,setWorkDuration]=useState(25)
+
+    const [second,setSecond]=useState(workDuration*60)
 
     const [isRunning,setIsRunning]=useState(false)
 
@@ -26,7 +28,7 @@ const App=()=>{
                 }else if(prev===0 && mode==='break'){
                     setMode('work')
                      setIsRunning(false)
-                   return 1*60
+                   return workDuration*60
                 }
                 else {setTotalSeconds(prev=>prev+1) 
                   return prev-1}
@@ -34,7 +36,7 @@ const App=()=>{
         },1000)
 
         return()=> clearInterval(interval)
-    },[isRunning,mode]) 
+    },[isRunning,mode,workDuration]) 
 
     const min=Math.floor(second/60)
     const sec=Math.floor(second%60)
@@ -44,8 +46,13 @@ const App=()=>{
     }
 
     const handleReset=()=>{
-        setSecond(25*60)
+        setSecond(workDuration*60)
         setIsRunning(false)
+    }
+
+    const handleDuration=(minutes)=>{
+     setWorkDuration(minutes)
+     setSecond(minutes*60)
     }
 
     const totalMin=Math.floor(totalSeconds/60)
@@ -61,6 +68,9 @@ const App=()=>{
           <h1>Your total session:{session}</h1>
 
           <h1>Your total focus time:{totalMin}:{totalSec}</h1>
+
+          <button onClick={()=>handleDuration(25)}>25 min</button>
+          <button onClick={()=>handleDuration(50)}>50 min</button>
         </div>
     )
 }
